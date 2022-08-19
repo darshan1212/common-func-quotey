@@ -1,6 +1,6 @@
 {
   "name": "common-func-quotey",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is npm package, meant to resolve DRY principle for quotey project. This package will export functions which are required by both frontend and backend",
   "main": "index.js",
   "scripts": {
