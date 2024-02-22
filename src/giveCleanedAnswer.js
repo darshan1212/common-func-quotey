@@ -76,7 +76,16 @@ const mulitSelectConversion = ({ answer }) => {
     return null;
   }
 };
+const mulitTextConversion = ({ answer }) => {
+  try {
+    let aSingleString = "";
+    aSingleString = answer;  
 
+    return aSingleString;
+  } catch (e) {
+    return null;
+  }
+};
 //   address,
 const addressConversion = ({ answer, cleanedAnswer, nodeid }) => {
   try {
@@ -137,6 +146,7 @@ const conversionFunctionForEachType = {
   singleselect: singleSelectConversion,
   singleselectplatinum: singleSelectConversion,
   multiselect: mulitSelectConversion,
+  multitext: mulitTextConversion,
   multiselectplatinum: mulitSelectConversion,
   schedule: scheduleCoversion,
   address: addressConversion,
