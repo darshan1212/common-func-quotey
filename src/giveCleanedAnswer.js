@@ -44,6 +44,7 @@ const convertFormStateToCleanedAnswer = ({
   addOperationCodes({ answers, cleanedAnswer });
 
   addCalculatedVerticalId({ answers, cleanedAnswer });
+  parseOperationTable({formstate, cleanedAnswer, answers})
 
   return { ...cleanedAnswer };
 };
@@ -184,6 +185,37 @@ const addCalculatedVerticalId = ({ answers, cleanedAnswer }) => {
     return;
   }
 };
+
+const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
+  try {
+    const operationTableAnswer = formstate['c']?.nodestate?.['400_2']?.answer
+    if(answers.selectedverticalid !== 1 || !operationTableAnswer) return
+    let contract_dict = {
+      'Last 12 months': 401,
+      'Projected 12 months': 405 ,
+      'Are all revenues in Canada': 410,
+      '% from Canada?': 415,
+      '% from USA': 420,
+      '% from other': 425,
+      '% residential': 430,
+      '% commerical': 435,
+      '% industrial': 440 ,
+      '% agricultural': 450,
+    }
+    for(let dict_key in contract_dict){
+      let op_counter = 1;
+      for(let opkey in operationTableAnswer[dict_key]){
+        if(opkey == 'Total') continue;
+        if(![null, ''].includes(operationTableAnswer[dict_key][opkey]))
+          cleanedAnswer[`operation_${op_counter}_${contract_dict[dict_key]}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+        op_counter += 1;
+      }
+    }
+    return;
+  } catch (e) {
+    return;
+  }
+}
 
 // also add calculated verticalid
 
