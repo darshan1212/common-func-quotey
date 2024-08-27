@@ -188,7 +188,8 @@ const addCalculatedVerticalId = ({ answers, cleanedAnswer }) => {
 
 const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
   try {
-    const operationTableAnswer = formstate['c']?.nodestate?.['400_2']?.answer
+    const operationTableAnswer = formstate['c']?.nodestate?.['461']?.answer
+    const logicRowsData = formstate['c']?.nodestate?.['461']?.logic?.rowData;
     if(answers.selectedverticalid !== 1 || !operationTableAnswer) return
     let contract_dict = {
       'Last 12 months': 401,
@@ -202,21 +203,35 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
       '% industrial': 440 ,
       '% agricultural': 450,
     }
-    for(let dict_key in contract_dict){
+    // for(let dict_key in contract_dict){
+    //   let op_counter = 1;
+    //   for(let opkey in operationTableAnswer[dict_key]){
+    //     if(opkey == 'Total') continue;
+    //     if(![null, ''].includes(operationTableAnswer[dict_key][opkey]))
+    //       cleanedAnswer[`operation_${op_counter}_${contract_dict[dict_key]}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+    //     op_counter += 1;
+    //   }
+    // }
+    for(let logicData of logicRowsData){
+      if(logicData.type == 'header'){
+        continue;
+      }
+      let dict_key = logicData.text;
       let op_counter = 1;
       for(let opkey in operationTableAnswer[dict_key]){
         if(opkey == 'Total') continue;
         if(![null, ''].includes(operationTableAnswer[dict_key][opkey]))
-          cleanedAnswer[`operation_${op_counter}_${contract_dict[dict_key]}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+          cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
         op_counter += 1;
       }
     }
     return;
   } catch (e) {
+    console.log("SOMETHING FIALED (E)")
+    console.log(e)
     return;
   }
 }
-
 // also add calculated verticalid
 
 // export the main function
