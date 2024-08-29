@@ -220,8 +220,14 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
       let op_counter = 1;
       for(let opkey in operationTableAnswer[dict_key]){
         if(opkey == 'Total') continue;
-        if(![null, ''].includes(operationTableAnswer[dict_key][opkey]))
-          cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+        if(![null, ''].includes(operationTableAnswer[dict_key][opkey])){
+
+          if([true, false].includes(operationTableAnswer[dict_key][opkey])){
+            cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = operationTableAnswer[dict_key][opkey];
+          }
+          else  
+            cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+        }
         op_counter += 1;
       }
     }
