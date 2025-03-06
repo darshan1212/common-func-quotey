@@ -206,7 +206,7 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
         if(opkey == 'Total') continue;
         if(![null, ''].includes(operationTableAnswer[dict_key][opkey])){
 
-          if([true, false].includes(operationTableAnswer[dict_key][opkey])){
+          if([true, false, "Yes", "No"].includes(operationTableAnswer[dict_key][opkey])){
             cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = operationTableAnswer[dict_key][opkey];
           }
           else  
