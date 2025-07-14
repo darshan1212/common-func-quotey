@@ -203,10 +203,12 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
       let dict_key = logicData.text;
       let op_counter = 1;
       for(let opkey in operationTableAnswer[dict_key]){
-        if(opkey == 'Total') continue;
+        //if(opkey == 'Total') continue;
         if(![null, ''].includes(operationTableAnswer[dict_key][opkey])){
-
-          if([true, false, "Yes", "No"].includes(operationTableAnswer[dict_key][opkey])){
+          if(opkey == 'Total'){
+            cleanedAnswer[`operation_total_${logicData.id}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+          }
+          else if([true, false, "Yes", "No"].includes(operationTableAnswer[dict_key][opkey])){
             cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = operationTableAnswer[dict_key][opkey];
           }
           else  
