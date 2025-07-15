@@ -163,7 +163,9 @@ const addOperationCodes = ({ answers, cleanedAnswer }) => {
   // So, index + 1 will give exact operation ids
 
   try {
-    answers.operations.list.forEach((operation, index) => {
+    answers.operations.list
+    .filter(operation => operation.id)
+    .forEach((operation, index) => {
       cleanedAnswer[`operation_${index + 1}`] = operation.id;
     });
 
