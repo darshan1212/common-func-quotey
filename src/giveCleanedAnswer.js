@@ -194,6 +194,9 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
     }
     const operationTableAnswer = formstate['c']?.nodestate?.[nodeKey]?.answer
     const logicRowsData = formstate['c']?.nodestate?.[nodeKey]?.logic?.rowData;
+    const operationNames = answers.operations.list
+      .filter(item => item.name?.en)
+      .map(item => item.name.en);
     if(!operationTableAnswer) return
    
     for(let logicData of logicRowsData){
@@ -204,9 +207,12 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
       let op_counter = 1;
       for(let opkey in operationTableAnswer[dict_key]){
         //if(opkey == 'Total') continue;
+        op_counter = operationNames.indexOf(opkey)
         if(![null, ''].includes(operationTableAnswer[dict_key][opkey])){
+          if(op_counter == 0 && opkey != 'Total') continue; // skip if operation isnt in answer array and isnt total
           if(opkey == 'Total'){
             cleanedAnswer[`operation_total_${logicData.id}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
+            continue;
           }
           else if([true, false, "Yes", "No"].includes(operationTableAnswer[dict_key][opkey])){
             cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = operationTableAnswer[dict_key][opkey];
@@ -214,7 +220,7 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
           else  
             cleanedAnswer[`operation_${op_counter}_${logicData.id}`] = parseFloat(operationTableAnswer[dict_key][opkey].replace(/,/g, ''));
         }
-        op_counter += 1;
+        //op_counter += 1;
       }
     }
     return;
