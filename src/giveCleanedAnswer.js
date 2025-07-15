@@ -207,7 +207,7 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
       let op_counter = 1;
       for(let opkey in operationTableAnswer[dict_key]){
         //if(opkey == 'Total') continue;
-        op_counter = operationNames.indexOf(opkey)
+        op_counter = operationNames.indexOf(opkey) + 1;
         if(![null, ''].includes(operationTableAnswer[dict_key][opkey])){
           if(op_counter == 0 && opkey != 'Total') continue; // skip if operation isnt in answer array and isnt total
           if(opkey == 'Total'){
