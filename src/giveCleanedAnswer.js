@@ -191,7 +191,7 @@ const addCalculatedVerticalId = ({ answers, cleanedAnswer }) => {
 const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
   try {
     let nodeKey = "461";
-    if(answers.selectedverticalid !== 1 ){
+    if(answers.calculatedverticalid !== 1 ){
       nodeKey = "464";
     }
     const operationTableAnswer = formstate['c']?.nodestate?.[nodeKey]?.answer
