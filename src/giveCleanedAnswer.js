@@ -112,6 +112,36 @@ const scheduleCoversion = ({ answer }) => {
   }
 };
 
+const bundleSetConversion = ({answer, cleanedAnswer, nodeid, logic}) => {
+  try {
+    if(!answer?.mainanswer || !logic?.optionlist) {
+      return;
+    }
+    let mainAnswer = answer.mainanswer.trim();
+    let selectedoptions = answer.selectedoptions ?? [];
+    let childNodeIds = logic.optionlist;
+
+    if(!Array.isArray(childNodeIds)){
+      return mainAnswer;
+    }
+    if(mainAnswer == 'No'){
+      childNodeIds.forEach(childId => {
+        cleanedAnswer[childId] = "No";
+      });
+      return mainAnswer; 
+    }
+    else if (mainAnswer == 'Yes') {
+      childNodeIds.forEach(childId => {
+        cleanedAnswer[childId] = selectedoptions.includes(childId) ? "Yes" : "No";
+      });
+      return mainAnswer; 
+    }
+  }catch(e){
+    console.warn("Error with bundleSetConversion", e);
+    return null;
+  }
+}
+
 // TODO : These  left
 //   multistring,
 //   date
@@ -151,6 +181,7 @@ const conversionFunctionForEachType = {
   multiselectplatinum: mulitSelectConversion,
   schedule: scheduleCoversion,
   address: addressConversion,
+  bundleset:bundleSetConversion,
 };
 
 /////////////////////////////////////////////////////
