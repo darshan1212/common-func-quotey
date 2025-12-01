@@ -29,6 +29,7 @@ const convertFormStateToCleanedAnswer = ({
                   answer: nodestate[nodeid].answer,
                   cleanedAnswer,
                   nodeid,
+                  logic: nodestate[nodeid].logic,
                 });
               }
             }
