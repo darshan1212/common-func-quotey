@@ -237,7 +237,10 @@ const parseOperationTable = ({formstate, cleanedAnswer, answers}) => {
       if(logicData.type == 'header'){
         continue;
       }
-      let dict_key = logicData.text;
+      // Handle bilingual text structure (new) and legacy string (old)
+      let dict_key = typeof logicData.text === 'object' && logicData.text !== null && logicData.text.en
+        ? logicData.text.en
+        : logicData.text;
       let op_counter = 1;
       for(let opkey in operationTableAnswer[dict_key]){
         //if(opkey == 'Total') continue;
